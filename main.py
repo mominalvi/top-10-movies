@@ -1,3 +1,5 @@
+import os
+
 from flask import Flask, render_template, redirect, url_for, request
 from flask_bootstrap import Bootstrap5
 from flask_sqlalchemy import SQLAlchemy
@@ -5,6 +7,8 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired
 import requests
+from dotenv import load_dotenv
+load_dotenv()
 
 '''
 Red underlines? Install the required packages first: 
@@ -20,16 +24,16 @@ This will install the packages from requirements.txt for this project.
 '''
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 Bootstrap5(app)
 db = SQLAlchemy()
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///movie.db"
+app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv('DB')
 db.init_app(app)
 
-API_KEY = "5a2ffe1cf2a0f78028305f7125d6cd65"
+API_KEY = os.getenv('API_KEY')
 headers = {
     "accept": "application/json",
-    "Authorization": "Bearer 5a2ffe1cf2a0f78028305f7125d6cd65"
+    "Authorization": os.getenv('AUTH')
 }
 BASE_URL_IMG = 'https://image.tmdb.org/t/p/w500/'
 
